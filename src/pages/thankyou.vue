@@ -1,0 +1,6 @@
+
+<template>
+	<ThankYou/>
+
+
+</template>
