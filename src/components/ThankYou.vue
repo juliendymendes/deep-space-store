@@ -9,7 +9,7 @@
             cover
             src="/success-purchase.png"
           ></v-img>
-          <h1>Pedido realizado com sucesso!</h1>
+          <h1 class="text-h5 text-sm-h4 text-lg-h3">Pedido realizado com sucesso!</h1>
           <p class="text-h6">Total: R$199,99</p>
           <p>Pago via Cartão de crédito</p>
           <!-- <p>Aqui está seu código para pagamento</p>
