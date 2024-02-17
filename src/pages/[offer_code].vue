@@ -8,7 +8,16 @@
             aspect-ratio="16/9"
             cover
             :src="`http://localhost:3000/${offer?.imagesPaths[currentImage]}`"
-          ></v-img>
+          >
+            <template v-slot:placeholder>
+              <div class="d-flex align-center justify-center fill-height">
+                <v-progress-circular
+                  color="grey-lighten-4"
+                  indeterminate
+                ></v-progress-circular>
+              </div>
+            </template>
+          </v-img>
 
           <v-row class="mt-5 w-75">
             <v-col
@@ -24,7 +33,16 @@
                 :src="`http://localhost:3000/${image}`"
                 class="cursor-pointer"
                 @click="() => changeImage(index)"
-              ></v-img>
+              >
+                <template v-slot:placeholder>
+                  <div class="d-flex align-center justify-center fill-height">
+                    <v-progress-circular
+                      color="grey-lighten-4"
+                      indeterminate
+                    ></v-progress-circular>
+                  </div>
+                </template>
+              </v-img>
             </v-col>
           </v-row>
           <h1 class="mt-5 text-h5">{{ offer?.name }}</h1>
@@ -57,8 +75,11 @@
 
 <script lang="ts" setup>
 import { Offer } from "@/mocks/handlers";
-import { onMounted, ref } from "vue";
 
+import { onMounted, ref } from "vue";
+import { useRoute } from "vue-router";
+
+const router = useRoute();
 const offer = ref<Offer | null>(null);
 
 const currentImage = ref(0);
@@ -68,7 +89,9 @@ function changeImage(index: number) {
 }
 
 onMounted(() => {
-  fetch("/offers/1", {
+  const { offer_code } = router.params;
+
+  fetch(`/offers/${offer_code}`, {
     method: "GET",
   })
     .then((res) => {
@@ -80,7 +103,6 @@ onMounted(() => {
     })
     .then((data) => {
       offer.value = data;
-      console.log(data);
     })
     .catch((error) => {
       console.log(error);
