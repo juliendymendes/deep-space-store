@@ -40,7 +40,6 @@ import type {
 declare module 'vue-router/auto/routes' {
   export interface RouteNamedMap {
     '/[offer_code]': RouteRecordInfo<'/[offer_code]', '/:offer_code', { offer_code: ParamValue<true> }, { offer_code: ParamValue<false> }>,
-    '/[OFFER_CODE]': RouteRecordInfo<'/[OFFER_CODE]', '/:OFFER_CODE', { OFFER_CODE: ParamValue<true> }, { OFFER_CODE: ParamValue<false> }>,
     '/thankyou': RouteRecordInfo<'/thankyou', '/thankyou', Record<never, never>, Record<never, never>>,
   }
 }
