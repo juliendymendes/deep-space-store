@@ -1,6 +1,27 @@
 import Offer from "@/types/Offer";
+import PaymentOptions from "@/types/PaymentOptions";
+import PersonalData from "@/types/PersonalData";
 import { http, HttpResponse } from "msw";
 
+
+interface OrderResquest{
+	name: string;
+  email?: string;
+  phone: string;
+	type: PaymentOptions
+	cardNumber?: string
+	cardOwnerName?: string
+	cardExpirationDate?: string
+	cardSecurityCode?: number
+	cpf: string
+	bairro: string;
+  cep: string;
+  complemento: string;
+  localidade: string;
+  logradouro: string;
+  uf: string;
+	numero: number
+}
 const allOffers = new Map<number, Offer>([
   [
     1,
@@ -36,7 +57,11 @@ export const handlers = [
   }),
 
   http.post("/offers/:offerCode/create_order", async ({ request, params }) => {
-    const newOrder = await request.json();
+    const newOrder = await request.json() as OrderResquest;
+		if(newOrder.cpf === "00000000000"){
+			return HttpResponse.json(null, {status: 400, statusText: "CPF incorreto. Por favor, tente novamente."})
+		}
+
     const { offerCode } = params;
     allOrders.set(offerCode, newOrder);
 

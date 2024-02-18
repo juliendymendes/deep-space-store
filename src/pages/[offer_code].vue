@@ -68,9 +68,17 @@
             <AddressForm />
 
             <PaymentForm />
+
             <v-col cols="12" class="d-flex justify-end">
               <v-btn type="submit" class="bg-black">Finalizar compra</v-btn>
             </v-col>
+            <v-alert
+              closable
+              :text="alertText"
+              type="error"
+              v-if="isAlertVisible"
+              class="float-right"
+            ></v-alert>
           </v-form>
         </v-col>
       </v-row>
@@ -88,6 +96,9 @@ const router = useRoute();
 const offer = ref<Offer | null>(null);
 const appStore = useAppStore();
 const currentImage = ref(0);
+
+const isAlertVisible = ref(false);
+const alertText = ref("");
 
 const { offer_code } = router.params;
 
@@ -110,6 +121,10 @@ function finalizeOrder() {
       method: "POST",
       body: JSON.stringify(bodyContent),
     }).then((res) => {
+      if (!res.ok) {
+        isAlertVisible.value = true;
+        alertText.value = res.statusText;
+      }
       console.log(res);
     });
   }
