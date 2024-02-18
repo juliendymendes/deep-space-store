@@ -90,9 +90,10 @@
 import { useAppStore } from "@/store/app";
 import Offer from "@/types/Offer";
 import { onMounted, ref } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
-const router = useRoute();
+const route = useRoute();
+const router = useRouter()
 const offer = ref<Offer | null>(null);
 const appStore = useAppStore();
 const currentImage = ref(0);
@@ -100,7 +101,7 @@ const currentImage = ref(0);
 const isAlertVisible = ref(false);
 const alertText = ref("");
 
-const { offer_code } = router.params;
+const { offer_code } = route.params;
 
 function changeImage(index: number) {
   currentImage.value = index;
@@ -120,13 +121,22 @@ function finalizeOrder() {
     fetch(`/offers/${offer_code}/create_order`, {
       method: "POST",
       body: JSON.stringify(bodyContent),
-    }).then((res) => {
-      if (!res.ok) {
-        isAlertVisible.value = true;
-        alertText.value = res.statusText;
-      }
-      console.log(res);
-    });
+    })
+      .then((res) => {
+        if (!res.ok) {
+          isAlertVisible.value = true;
+          alertText.value = res.statusText;
+        } else {
+          return res.json();
+        }
+      })
+      .then((data) => {
+        appStore.orderCreated = data;
+				router.push('/thankyou')
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 }
 

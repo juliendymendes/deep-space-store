@@ -1,7 +1,7 @@
 import PaymentOptions from "./PaymentOptions";
 
 export default interface PaymentData {
-	type: PaymentOptions
+	paymentType: PaymentOptions
 	cardNumber?: string
 	cardOwnerName?: string
 	cardExpirationDate?: string

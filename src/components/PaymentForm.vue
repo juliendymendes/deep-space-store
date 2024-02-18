@@ -97,15 +97,15 @@ function setPaymentOption(value: string) {
 
   switch (value) {
     case "credito":
-      appStore.paymentData.type = "credito";
+      appStore.paymentData.paymentType = "credito";
       chooseCreditCard.value = true;
       break;
     case "boleto":
-      appStore.paymentData.type = "boleto";
+      appStore.paymentData.paymentType = "boleto";
       chooseCreditCard.value = false;
       break;
     case "pix":
-      appStore.paymentData.type = "pix";
+      appStore.paymentData.paymentType = "pix";
       chooseCreditCard.value = false;
       break;
   }

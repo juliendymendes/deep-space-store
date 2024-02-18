@@ -1,27 +1,9 @@
 import Offer from "@/types/Offer";
+import OrderResquest from "@/types/OrderCreated";
 import PaymentOptions from "@/types/PaymentOptions";
 import { http, HttpResponse } from "msw";
 
 
-interface OrderResquest{
-	orderCode: number
-	name: string;
-  email?: string;
-  phone: string;
-	type: PaymentOptions
-	cardNumber?: string
-	cardOwnerName?: string
-	cardExpirationDate?: string
-	cardSecurityCode?: number
-	cpf: string
-	bairro: string;
-  cep: string;
-  complemento: string;
-  localidade: string;
-  logradouro: string;
-  uf: string;
-	numero: number
-}
 const allOffers = new Map<number, Offer>([
   [
     1,
@@ -65,6 +47,8 @@ export const handlers = [
     const { offerCode } = params;
 		const id = Math.floor(Math.random() * 1000); // TODO change for uuid when possible
 		newOrder.orderCode = id
+		const offer = allOffers.get(Number(offerCode));
+		newOrder.offer = offer!
     allOrders.set(offerCode, newOrder);
     return HttpResponse.json(newOrder, {
       status: 201,

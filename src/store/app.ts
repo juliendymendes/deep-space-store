@@ -2,6 +2,8 @@ import { defineStore } from 'pinia'
 import PersonalData from '@/types/PersonalData'
 import DeliveryAddress from '@/types/DeliveryAddress'
 import PaymentData from '@/types/PaymentData'
+import OrderCreated from '@/types/OrderCreated'
+import Offer from '@/types/Offer'
 
 const personalData: PersonalData = {
 	name: '',
@@ -18,14 +20,38 @@ const deliveryAddress: DeliveryAddress ={
 	numero: -1
 }
 const paymentData: PaymentData = {
-	type: 'pix',
+	paymentType: 'pix',
 	cpf: ""
 }
+
+const orderCreated : OrderCreated = {
+	orderCode: 0,
+	offer: {
+		code: 0,
+		name: '',
+		price: 0,
+		paymentOptions: [],
+		imagesPaths: []
+	},
+	name: '',
+	phone: '',
+	paymentType: 'pix',
+	cpf: '',
+	bairro: '',
+	cep: '',
+	complemento: '',
+	localidade: '',
+	logradouro: '',
+	uf: '',
+	numero: 0
+}
+
 export const useAppStore = defineStore('app', {
   state: () => ({
     personalData,
 		deliveryAddress,
-		paymentData
+		paymentData,
+		orderCreated
   }),
 	actions: {
 		verifyPersonalData(){
@@ -39,7 +65,7 @@ export const useAppStore = defineStore('app', {
 			return false
 		},
 		verifyPaymentData(){
-			if(this.paymentData.type == "credito"){
+			if(this.paymentData.paymentType == "credito"){
 				if(this.paymentData.cardExpirationDate != "" && this.paymentData.cardNumber != "" && this.paymentData.cardOwnerName != "" && this.paymentData.cardSecurityCode != 0 && this.paymentData.cpf != ""){
 					return true
 				}
