@@ -62,11 +62,16 @@
           </div>
         </v-col>
         <v-col cols="12" lg="6" class="d-flex flex-column ga-7 pr-3">
-          <PersonalDataForm />
+          <v-form @submit.prevent>
+            <PersonalDataForm />
 
-          <AddressForm />
+            <AddressForm />
 
-          <PaymentForm />
+            <PaymentForm />
+            <v-col cols="12" class="d-flex justify-end">
+              <v-btn type="submit" class="bg-black">Finalizar compra</v-btn>
+            </v-col>
+          </v-form>
         </v-col>
       </v-row>
     </v-responsive>
