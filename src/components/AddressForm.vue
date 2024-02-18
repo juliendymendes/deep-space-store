@@ -11,7 +11,8 @@
               type="text"
               :rules="[validateCep]"
               validate-on="blur lazy"
-							hide-details="auto"
+              hide-details="auto"
+              :model-value="appStore.deliveryAddress.cep"
             ></v-text-field>
           </v-col>
 
@@ -23,8 +24,8 @@
                     label="Rua"
                     type="text"
                     :rules="[requiredRules]"
-                    :model-value="addressInfo?.logradouro"
-										hide-details="auto"
+                    hide-details="auto"
+                    :model-value="appStore.deliveryAddress.logradouro"
                   ></v-text-field>
                 </v-col>
 
@@ -33,8 +34,12 @@
                     label="Número"
                     type="text"
                     :rules="[requiredRules]"
-										:model-value="addressInfo?.numero"
-										hide-details="auto"
+                    :model-value="appStore.deliveryAddress.numero"
+                    @update:model-value="
+                      (value) =>
+                        (appStore.deliveryAddress.numero = Number(value))
+                    "
+                    hide-details="auto"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -47,8 +52,8 @@
                     label="Cidade"
                     type="text"
                     :rules="[requiredRules]"
-                    :model-value="addressInfo?.localidade"
-										hide-details="auto"
+                    :model-value="appStore.deliveryAddress.localidade"
+                    hide-details="auto"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="6">
@@ -56,8 +61,8 @@
                     label="Estado"
                     type="text"
                     :rules="[requiredRules]"
-                    :model-value="addressInfo?.uf"
-										hide-details="auto"
+                    :model-value="appStore.deliveryAddress.uf"
+                    hide-details="auto"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -68,13 +73,21 @@
                 label="Bairro"
                 type="text"
                 :rules="[requiredRules]"
-                :model-value="addressInfo?.bairro"
-								hide-details="auto"
+                :model-value="appStore.deliveryAddress.bairro"
+                hide-details="auto"
               ></v-text-field>
             </v-col>
 
             <v-col cols="12">
-              <v-text-field label="Complemento" type="text" hide-details="auto"></v-text-field>
+              <v-text-field
+                label="Complemento"
+                type="text"
+                hide-details="auto"
+                :model-value="appStore.deliveryAddress.complemento"
+                @update:model-value="
+                  (value) => (appStore.deliveryAddress.complemento = value)
+                "
+              ></v-text-field>
             </v-col>
           </div>
         </v-row>
@@ -86,19 +99,10 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { requiredRules } from "@/helpers/validators/forms";
-
-interface Address {
-  bairro: string;
-  cep: string;
-  complemento: string;
-  localidade: string;
-  logradouro: string;
-  uf: string;
-	numero: number
-}
-
+import { useAppStore } from "@/store/app";
 const hasAddressInfo = ref(false);
-const addressInfo = ref<Address>();
+
+const appStore = useAppStore();
 
 function searchAddressByCep(value: string) {
   fetch(`https://viacep.com.br/ws/${value}/json/`)
@@ -108,9 +112,16 @@ function searchAddressByCep(value: string) {
       }
     })
     .then((data) => {
-      addressInfo.value = data;
+			if(appStore.deliveryAddress){
+				appStore.deliveryAddress.bairro = data.bairro;
+				appStore.deliveryAddress.cep = data.cep;
+				appStore.deliveryAddress.logradouro = data.logradouro;
+				appStore.deliveryAddress.localidade = data.localidade;
+				appStore.deliveryAddress.uf = data.uf;
+
+			}
+
       hasAddressInfo.value = true;
-      console.log(addressInfo.value);
     });
 }
 

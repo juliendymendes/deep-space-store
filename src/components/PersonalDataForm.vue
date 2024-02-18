@@ -10,14 +10,25 @@
               label="Nome completo"
               type="text"
               :rules="[requiredRules]"
-							hide-details="auto"
+							required
+              hide-details="auto"
+              :model-value="appStore.personalData.name"
+							@update:model-value="value => appStore.personalData.name = value"
             ></v-text-field>
-            <v-text-field label="E-mail" type="email" hide-details="auto"></v-text-field>
+            <v-text-field
+              label="E-mail"
+              type="email"
+              hide-details="auto"
+              :model-value="appStore.personalData.email"
+							@update:model-value="value => appStore.personalData.email = value"
+            ></v-text-field>
             <v-text-field
               label="Telefone"
               type="tel"
               :rules="[requiredRules, validadePhone]"
-							hide-details="auto"
+              hide-details="auto"
+              :model-value="appStore.personalData.phone"
+							@update:model-value="value => appStore.personalData.phone = value"
             ></v-text-field>
           </v-col>
         </v-row>
@@ -27,8 +38,8 @@
 </template>
 
 <script setup lang="ts">
-import { requiredRules, validadePhone } from "../helpers/validators/forms"
+import { useAppStore } from "@/store/app";
+import { requiredRules, validadePhone } from "../helpers/validators/forms";
 
-
-
+const appStore = useAppStore();
 </script>

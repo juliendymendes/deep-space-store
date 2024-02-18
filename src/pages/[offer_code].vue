@@ -62,7 +62,7 @@
           </div>
         </v-col>
         <v-col cols="12" lg="6" class="d-flex flex-column ga-7 pr-3">
-          <v-form @submit.prevent>
+          <v-form @submit.prevent="finalizeOrder">
             <PersonalDataForm />
 
             <AddressForm />
@@ -79,23 +79,43 @@
 </template>
 
 <script lang="ts" setup>
-import { Offer } from "@/mocks/handlers";
-
+import { useAppStore } from "@/store/app";
+import Offer from "@/types/Offer";
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 
 const router = useRoute();
 const offer = ref<Offer | null>(null);
-
+const appStore = useAppStore();
 const currentImage = ref(0);
+
+const { offer_code } = router.params;
 
 function changeImage(index: number) {
   currentImage.value = index;
 }
 
-onMounted(() => {
-  const { offer_code } = router.params;
+function finalizeOrder() {
+  if (
+    appStore.verifyPersonalData() &&
+    appStore.verifyDeliveryAddress() &&
+    appStore.verifyPaymentData()
+  ) {
+    const bodyContent = {
+      ...appStore.personalData,
+      ...appStore.deliveryAddress,
+      ...appStore.paymentData,
+    };
+    fetch(`/offers/${offer_code}/create_order`, {
+      method: "POST",
+      body: JSON.stringify(bodyContent),
+    }).then((res) => {
+      console.log(res);
+    });
+  }
+}
 
+onMounted(() => {
   fetch(`/offers/${offer_code}`, {
     method: "GET",
   })

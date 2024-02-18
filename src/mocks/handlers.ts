@@ -1,16 +1,22 @@
+import Offer from "@/types/Offer";
 import { http, HttpResponse } from "msw";
-type Payment = "pix" | "credito" | "boleto"
-export interface Offer {
-	code: number
-	name: string
-	price: number
-	itens?: string[]
-	paymentOptions: Payment[]
-	imagesPaths: string[]
-}
 
-const allOffers = new Map<number,Offer>([
-	[1,{code: 1, name: "Projetor de luz de galáxia em forma de astronauta", price: 88,itens: ["Carregador", "Suporte"], paymentOptions: ["pix", "credito", "boleto"], imagesPaths: ["/projetor/image1.jpg", "/projetor/image2.jpg", "/projetor/image3.jpg"]}]
+const allOffers = new Map<number, Offer>([
+  [
+    1,
+    {
+      code: 1,
+      name: "Projetor de luz de galáxia em forma de astronauta",
+      price: 88,
+      itens: ["Carregador", "Suporte"],
+      paymentOptions: ["pix", "credito", "boleto"],
+      imagesPaths: [
+        "/projetor/image1.jpg",
+        "/projetor/image2.jpg",
+        "/projetor/image3.jpg",
+      ],
+    },
+  ],
 ]);
 const allOrders = new Map();
 

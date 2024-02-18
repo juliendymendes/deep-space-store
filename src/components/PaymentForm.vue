@@ -21,7 +21,9 @@
               required
               type="text"
               :rules="[validateCpf]"
-							hide-details="auto"
+              hide-details="auto"
+							:model-value="appStore.paymentData.cpf"
+							@update:model-value="value => appStore.paymentData.cpf = value"
             ></v-text-field>
           </v-col>
 
@@ -31,16 +33,20 @@
                 label="Número do cartão"
                 type="text"
                 :rules="[validateCardNumber, requiredRules]"
-								hide-details="auto"
+                hide-details="auto"
+								:model-value="appStore.paymentData.cardNumber"
+								@update:model-value="value => appStore.paymentData.cardNumber = value"
               ></v-text-field>
             </v-col>
 
-            <v-col cols="12">  
+            <v-col cols="12">
               <v-text-field
                 label="Nome no cartão"
                 type="text"
                 :rules="[requiredRules]"
-								hide-details="auto"
+                hide-details="auto"
+								:model-value="appStore.paymentData.cardOwnerName"
+								@update:model-value="value => appStore.paymentData.cardOwnerName = value"
               ></v-text-field>
             </v-col>
 
@@ -51,15 +57,19 @@
                     label="Data de validade"
                     type="month"
                     hide-details="auto"
-										:rules="[requiredRules]"
+                    :rules="[requiredRules]"
+										:model-value="appStore.paymentData.cardExpirationDate"
+										@update:model-value="value => appStore.paymentData.cardExpirationDate = value"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="6">
                   <v-text-field
                     label="Código de segurança"
                     type="number"
-										hide-details="auto"
-										:rules="[requiredRules]"
+                    hide-details="auto"
+                    :rules="[requiredRules]"
+										:model-value="appStore.paymentData.cardSecurityCode"
+										@update:model-value="value => appStore.paymentData.cardSecurityCode = Number(value)"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -73,28 +83,39 @@
 
 <script setup lang="ts">
 import { requiredRules, validateCpf } from "@/helpers/validators/forms";
+import { useAppStore } from "@/store/app";
 import { ref } from "vue";
 
 const chooseCreditCard = ref(false);
 
 const paymentOption = ref("pix");
 
-
+const appStore = useAppStore();
 
 function setPaymentOption(value: string) {
   paymentOption.value = value;
-  if (value === "credito") {
-    chooseCreditCard.value = true;
-  } else {
-    chooseCreditCard.value = false;
+
+  switch (value) {
+    case "credito":
+      appStore.paymentData.type = "credito";
+      chooseCreditCard.value = true;
+      break;
+    case "boleto":
+      appStore.paymentData.type = "boleto";
+      chooseCreditCard.value = false;
+      break;
+    case "pix":
+      appStore.paymentData.type = "pix";
+      chooseCreditCard.value = false;
+      break;
   }
 }
 
-function validateCardNumber(value: string){
-	if(/^\d{4} \d{4} \d{4} \d{4}$/.test(value)){
-		return true
-	}
+function validateCardNumber(value: string) {
+  if (/^\d{4} \d{4} \d{4} \d{4}$/.test(value)) {
+    return true;
+  }
 
-	return "Número do cartão deve conter 16 caracteres numéricos."
+  return "Número do cartão deve conter 16 caracteres numéricos.";
 }
 </script>
