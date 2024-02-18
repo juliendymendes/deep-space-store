@@ -1,10 +1,10 @@
 import Offer from "@/types/Offer";
 import PaymentOptions from "@/types/PaymentOptions";
-import PersonalData from "@/types/PersonalData";
 import { http, HttpResponse } from "msw";
 
 
 interface OrderResquest{
+	orderCode: number
 	name: string;
   email?: string;
   phone: string;
@@ -63,8 +63,9 @@ export const handlers = [
 		}
 
     const { offerCode } = params;
+		const id = Math.floor(Math.random() * 1000); // TODO change for uuid when possible
+		newOrder.orderCode = id
     allOrders.set(offerCode, newOrder);
-
     return HttpResponse.json(newOrder, {
       status: 201,
       statusText: "Pedido realizado com sucesso!",
