@@ -34,7 +34,6 @@
                     label="Número"
                     type="text"
                     :rules="[requiredRules]"
-                    :model-value="appStore.deliveryAddress.numero"
                     @update:model-value="
                       (value) =>
                         (appStore.deliveryAddress.numero = Number(value))

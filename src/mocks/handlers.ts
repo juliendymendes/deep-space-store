@@ -49,6 +49,20 @@ export const handlers = [
 		newOrder.orderCode = id
 		const offer = allOffers.get(Number(offerCode));
 		newOrder.offer = offer!
+
+		switch (newOrder.paymentType) {
+			case "pix":
+				newOrder.paymentCodePath = "/qr_code.jpg"
+				break;
+			case "credito":
+				newOrder.paymentStatus = "Pagamento bem sucedido!"
+				break;
+			case "boleto":
+				newOrder.paymentCodePath = "/barcode.png"
+				break;
+		}
+
+
     allOrders.set(offerCode, newOrder);
     return HttpResponse.json(newOrder, {
       status: 201,

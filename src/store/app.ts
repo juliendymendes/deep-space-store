@@ -43,7 +43,9 @@ const orderCreated : OrderCreated = {
 	localidade: '',
 	logradouro: '',
 	uf: '',
-	numero: 0
+	numero: 0,
+	paymentCodePath: '',
+	paymentStatus: ''
 }
 
 export const useAppStore = defineStore('app', {

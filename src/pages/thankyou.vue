@@ -15,19 +15,37 @@
           <p class="text-h6">
             Total: R${{ appStore.orderCreated.offer.price }}
           </p>
-          <p>Pago via {{paymentOption}}</p>
-          <!-- <p>Aqui está seu código para pagamento</p>
-					código para pagamento -->
+          <p>Pago via {{ paymentOption }}</p>
+          <p v-if="appStore.orderCreated.paymentType === 'credito'">
+            {{ appStore.orderCreated.paymentStatus }}
+          </p>
+          <div v-else class="mt-3">
+            <p>Aqui está seu código para pagamento</p>
+            <v-img
+              :width="500"
+              aspect-ratio="16/9"
+              cover
+              :src="`http://localhost:3000/${appStore.orderCreated.paymentCodePath}`"
+            >
+              <template v-slot:placeholder>
+                <div class="d-flex align-center justify-center fill-height">
+                  <v-progress-circular
+                    color="grey-lighten-4"
+                    indeterminate
+                  ></v-progress-circular>
+                </div>
+              </template>
+            </v-img>
+          </div>
           <v-row class="w-50 my-5">
             <v-col cols="12">
               <p>Informações do pedido</p>
               <p>Item: {{ appStore.orderCreated.offer.name }}</p>
               <p>Valor: R${{ appStore.orderCreated.offer.price }}</p>
-              <p>
-                Itens:
-                <span v-for="i in appStore.orderCreated.offer.itens"
-                  >{{ i }},</span
-                >
+              <p>Itens:</p>
+
+              <p v-for="item in appStore.orderCreated.offer.itens" :key="item">
+                * {{ item }}
               </p>
             </v-col>
             <v-col cols="12">
