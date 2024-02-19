@@ -7,11 +7,21 @@ const config: Config = {
 
   collectCoverageFrom: ["src/**"],
 
-  coverageDirectory: "tests/coverage",
+  coverageDirectory: "coverage",
 
   coverageProvider: "v8",
 
-  testEnvironment: "jsdom",
+  testEnvironment: "node",
+	transform: {
+		'^.+\\.ts?$': [
+			'ts-jest',
+			{
+				isolatedModules: true,
+			},
+		],
+	},
+	preset: 'ts-jest',
+	moduleFileExtensions: ['ts', 'js'],
 };
 
 export default config;
