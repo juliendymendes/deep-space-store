@@ -1,4 +1,5 @@
 import {
+  requiredRules,
   validateCardNumber,
   validateCpf,
   validatePhone,
@@ -63,9 +64,19 @@ describe("validateCardNumber", () => {
     );
   });
 
-	it("should return an error message for having less than 16 numeric characters and it is not in the format xxxx xxxx xxxx xxxx.", () => {
+  it("should return an error message for having less than 16 numeric characters and it is not in the format xxxx xxxx xxxx xxxx.", () => {
     expect(validateCardNumber("1234 1234 1234 123")).toBe(
       "Número do cartão deve conter 16 caracteres numéricos no formato xxxx xxxx xxxx xxxx."
     );
+  });
+});
+
+describe("requiredRules", () => {
+  it("must return true because it is not empty", () => {
+    expect(requiredRules("Test")).toBeTruthy();
+  });
+
+  it("must return an error message because it is empty", () => {
+    expect(requiredRules("")).toBe("Campo obrigatório");
   });
 });
