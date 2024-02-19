@@ -14,11 +14,11 @@ export function validateCpf(value: string) {
 }
 
 export function validadePhone(value: string) {
-  if (/^\d{2}\d{4,5}\d{4}$/.test(value)) {
+  if (/^\(\d{2}\)\d{5}\d{4}$/.test(value)) {
     return true;
   }
 
-  return "Telefone deve ter 11 caracteres númericos";
+  return "Telefone deve estar no formato (xx)xxxxx-xxxx";
 }
 
 export function validateCardNumber(value: string) {
