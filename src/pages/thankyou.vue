@@ -2,7 +2,10 @@
   <v-container class="fill-height">
     <v-responsive class="align-center fill-height pt-10 pb-10">
       <v-row no-gutters class="bg-white pa-3 rounded-xl">
-        <v-col cols="12" class="d-flex flex-column align-center">
+				<v-col v-if="!hasOrder" cols="12" class="d-flex flex-column align-center">
+					Você ainda não fez um pedido :(
+				</v-col>
+        <v-col v-else cols="12" class="d-flex flex-column align-center">
           <v-img
             :width="300"
             aspect-ratio="16/9"
@@ -67,10 +70,19 @@
 
 <script setup lang="ts">
 import { useAppStore } from "@/store/app";
-import { onMounted, ref } from "vue";
+import { onBeforeMount, onMounted, ref } from "vue";
 
 const appStore = useAppStore();
 const paymentOption = ref("");
+const hasOrder = ref(false)
+
+onBeforeMount(() => {
+	if(appStore.orderCreated.orderCode == 0){
+		hasOrder.value = false
+	}else{
+		hasOrder.value = true
+	}
+})
 
 onMounted(() => {
   switch (appStore.orderCreated.paymentType) {
