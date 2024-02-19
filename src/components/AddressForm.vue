@@ -6,6 +6,7 @@
         <v-row>
           <v-col cols="12">
             <v-text-field
+              id="zip_code"
               label="CEP (somente números)"
               required
               type="text"
@@ -21,6 +22,7 @@
               <v-row>
                 <v-col cols="12" sm="9">
                   <v-text-field
+                    id="street"
                     label="Rua"
                     type="text"
                     :rules="[requiredRules]"
@@ -31,6 +33,7 @@
 
                 <v-col cols="12" sm="3">
                   <v-text-field
+                    id="number"
                     label="Número"
                     type="text"
                     :rules="[requiredRules]"
@@ -48,6 +51,7 @@
               <v-row>
                 <v-col cols="6">
                   <v-text-field
+                    id="city"
                     label="Cidade"
                     type="text"
                     :rules="[requiredRules]"
@@ -57,6 +61,7 @@
                 </v-col>
                 <v-col cols="6">
                   <v-text-field
+                    id="state"
                     label="Estado"
                     type="text"
                     :rules="[requiredRules]"
@@ -69,6 +74,7 @@
 
             <v-col cols="12">
               <v-text-field
+                id="neighborhood"
                 label="Bairro"
                 type="text"
                 :rules="[requiredRules]"
@@ -79,6 +85,7 @@
 
             <v-col cols="12">
               <v-text-field
+                id="complement"
                 label="Complemento"
                 type="text"
                 hide-details="auto"
@@ -111,14 +118,13 @@ function searchAddressByCep(value: string) {
       }
     })
     .then((data) => {
-			if(appStore.deliveryAddress){
-				appStore.deliveryAddress.bairro = data.bairro;
-				appStore.deliveryAddress.cep = data.cep;
-				appStore.deliveryAddress.logradouro = data.logradouro;
-				appStore.deliveryAddress.localidade = data.localidade;
-				appStore.deliveryAddress.uf = data.uf;
-
-			}
+      if (appStore.deliveryAddress) {
+        appStore.deliveryAddress.bairro = data.bairro;
+        appStore.deliveryAddress.cep = data.cep;
+        appStore.deliveryAddress.logradouro = data.logradouro;
+        appStore.deliveryAddress.localidade = data.localidade;
+        appStore.deliveryAddress.uf = data.uf;
+      }
 
       hasAddressInfo.value = true;
     });

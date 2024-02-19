@@ -4,19 +4,21 @@
       <p class="font-weight-bold my-3">Pagamento</p>
       <v-radio-group
         inline
+				hide-details
         class="pl-2"
         :model-value="paymentOption"
         @update:model-value="(value) => setPaymentOption(value!)"
       >
-        <v-radio label="PIX" value="pix"></v-radio>
-        <v-radio label="Cartão de crédito" value="credito"></v-radio>
-        <v-radio label="Boleto" value="boleto"></v-radio>
+        <v-radio label="PIX" value="pix" id="pix"></v-radio>
+        <v-radio label="Cartão de crédito" value="credito" id="credito"></v-radio>
+        <v-radio label="Boleto" value="boleto" id="boleto"></v-radio>
       </v-radio-group>
 
       <v-container>
         <v-row>
           <v-col cols="12">
             <v-text-field
+						id="cpf"
               label="CPF (somente números)"
               required
               type="text"
@@ -30,6 +32,7 @@
           <div class="w-100" v-if="chooseCreditCard">
             <v-col cols="12">
               <v-text-field
+							id="cardNumber"
                 label="Número do cartão"
                 type="text"
                 :rules="[validateCardNumber, requiredRules]"
@@ -41,6 +44,7 @@
 
             <v-col cols="12">
               <v-text-field
+							id="cardOwnerName"
                 label="Nome no cartão"
                 type="text"
                 :rules="[requiredRules]"
@@ -54,6 +58,7 @@
               <v-row>
                 <v-col cols="6">
                   <v-text-field
+									id="cardExpirationDate"
                     label="Data de validade"
                     type="month"
                     hide-details="auto"
@@ -64,6 +69,7 @@
                 </v-col>
                 <v-col cols="6">
                   <v-text-field
+									id="cardSecurityCode"
                     label="Código de segurança"
                     type="number"
                     hide-details="auto"
