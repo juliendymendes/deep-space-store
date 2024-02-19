@@ -26,5 +26,5 @@ export function validateCardNumber(value: string) {
     return true;
   }
 
-  return "Número do cartão deve conter 16 caracteres numéricos.";
+  return "Número do cartão deve conter 16 caracteres numéricos no formato xxxx xxxx xxxx xxxx.";
 }
