@@ -20,3 +20,11 @@ export function validadePhone(value: string) {
 
   return "Telefone deve ter 11 caracteres númericos";
 }
+
+export function validateCardNumber(value: string) {
+  if (/^\d{4} \d{4} \d{4} \d{4}$/.test(value)) {
+    return true;
+  }
+
+  return "Número do cartão deve conter 16 caracteres numéricos.";
+}

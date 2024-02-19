@@ -82,7 +82,7 @@
 </template>
 
 <script setup lang="ts">
-import { requiredRules, validateCpf } from "@/helpers/validators/forms";
+import { requiredRules, validateCpf, validateCardNumber } from "@/helpers/validators/forms";
 import { useAppStore } from "@/store/app";
 import { ref } from "vue";
 
@@ -111,11 +111,5 @@ function setPaymentOption(value: string) {
   }
 }
 
-function validateCardNumber(value: string) {
-  if (/^\d{4} \d{4} \d{4} \d{4}$/.test(value)) {
-    return true;
-  }
 
-  return "Número do cartão deve conter 16 caracteres numéricos.";
-}
 </script>
