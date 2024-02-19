@@ -13,12 +13,12 @@ export function validateCpf(value: string) {
   return "CPF deve ter 11 caracteres númericos.";
 }
 
-export function validadePhone(value: string) {
+export function validatePhone(value: string) {
   if (/^\(\d{2}\)\d{5}\d{4}$/.test(value)) {
     return true;
   }
 
-  return "Telefone deve estar no formato (xx)xxxxx-xxxx";
+  return "Telefone deve estar no formato (xx)xxxxxxxxx";
 }
 
 export function validateCardNumber(value: string) {
