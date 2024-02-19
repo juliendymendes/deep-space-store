@@ -1,7 +1,7 @@
 <template>
   <v-container class="fill-height">
     <v-responsive class="align-center fill-height pt-10 pb-10">
-      <v-row no-gutters>
+      <v-row no-gutters v-if="!offerRequestError.visible">
         <v-col cols="12" lg="6" class="pl-xl-16">
           <v-img
             :width="500"
@@ -82,6 +82,14 @@
           </v-form>
         </v-col>
       </v-row>
+
+      <h1 v-if="offerRequestError.visible">
+        {{
+          offerRequestError.errorCode == 404
+            ? offerRequestError.errorText
+            : "Não foi possível recuperar as informações da oferta, tente novamente mais tarde."
+        }}
+      </h1>
     </v-responsive>
   </v-container>
 </template>
@@ -93,13 +101,19 @@ import { onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 const route = useRoute();
-const router = useRouter()
+const router = useRouter();
 const offer = ref<Offer | null>(null);
 const appStore = useAppStore();
 const currentImage = ref(0);
 
 const isAlertVisible = ref(false);
 const alertText = ref("");
+
+const offerRequestError = ref({
+  visible: false,
+  errorCode: -1,
+  errorText: "",
+});
 
 const { offer_code } = route.params;
 
@@ -132,7 +146,7 @@ function finalizeOrder() {
       })
       .then((data) => {
         appStore.orderCreated = data;
-				router.push('/thankyou')
+        router.push("/thankyou");
       })
       .catch((error) => {
         console.error(error);
@@ -146,15 +160,17 @@ onMounted(() => {
   })
     .then((res) => {
       if (res.ok) return res.json();
-
-      /**
-       *  TODO tratar erros
-       * */
+      if (res.status === 404) {
+        offerRequestError.value.visible = true;
+				offerRequestError.value.errorCode = res.status
+				offerRequestError.value.errorText = "Oferta não encontrada"
+      }
     })
     .then((data) => {
       offer.value = data;
     })
     .catch((error) => {
+      offerRequestError.value.visible = true;
       console.log(error);
     });
 });
