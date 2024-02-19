@@ -2,12 +2,22 @@
 
 This project consists of creating a payment page for the fictional online store "Deep Space Store". The payment page is the final point where customers can finalize their purchases, viewing a product offer and filling in their details to make payment.
 
+![](screenshot1.png)
+![](screenshot2.png)
+
 ## Table of contents
 
-- [Features](#features)
-- [Install](#install)
-- [Usage](#usage)
-- [License](#license)
+- [Deep Space Store](#deep-space-store)
+	- [Table of contents](#table-of-contents)
+	- [Features](#features)
+	- [Requirements](#requirements)
+	- [Installation](#installation)
+	- [Usage](#usage)
+		- [Starting the Development Server](#starting-the-development-server)
+		- [Building for Production](#building-for-production)
+		- [Running Unit tests](#running-unit-tests)
+		- [Runinng E2E tests](#runinng-e2e-tests)
+	- [License](#license)
 
 ## Features
 
@@ -17,12 +27,17 @@ This project consists of creating a payment page for the fictional online store 
 - Validation of data provided by the customer.
 - Payment processing.
 
-## Install
+## Requirements
+
+- [Node.js](https://nodejs.org/en/) >= 20.9.0
+- [pnpm](https://pnpm.js.org/) >= 8.10.2
+
+## Installation
 
 Set up the project using pnpm. Use the command
 `pnpm install`
 
-After completing the installation, your environment is ready for Vuetify development.
+After completing the installation, the environment is ready for development.
 
 ## Usage
 
@@ -36,6 +51,9 @@ To start the development server with hot-reload, run the following command. The 
 pnpm dev
 ```
 
+Note that in the '/' route there will be nothing shown on the screen, it is necessary to include an offer code in the url.
+Use code "1" to view the offer page and form. Example: `http://localhost/1`
+
 ### Building for Production
 
 To build your project for production, use:
@@ -46,7 +64,7 @@ pnpm build
 
 Once the build process is completed, the application will be ready for deployment in a production environment.
 
-### Run Unit tests
+### Running Unit tests
 
 To run unit tests, run the the following command:
 
@@ -54,19 +72,20 @@ To run unit tests, run the the following command:
 pnpm test
 ```
 
-Unit test files are in the folder `/tests`
+Unit test files are in the folder `src/__tests__`
 
-Covarege files will be in the folder `/coverage`
+Coverage files will be in the folder `/coverage`
 
-### Run E2E tests
+### Runinng E2E tests
 
 To open Cypress UI, run the the following command:
 
 ```bash
 pnpm cypress:open
 ```
-
 Then select the spec file to run the test.
+
+E2E test files are in the folder `/cypress/e2e`
 
 ## License
 
